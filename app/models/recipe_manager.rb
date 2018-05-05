@@ -17,10 +17,10 @@ class RecipeManager
     RecipeRepresenter.new(recipe)
   end
 
-  def update(recipe_params)
-    recipe = Recipe.new(recipe_params)
+  def update(recipe_params, current_user)
+    recipe = Recipe.find(recipe_params[:id])
 
-    unless is_owner?(recipe)
+    unless is_owner?(recipe, current_user)
       raise Exception.new("You are not the owner")
     end
 
@@ -30,31 +30,31 @@ class RecipeManager
       raise Exception.new(recipe.erros)
   end
 
-  def create(recipe_params)
+  def create(recipe_params, current_user)
     unless validate_params_for_create(recipe_params)
       raise Exception.new("Needs more than one ingredient")
     end
-
-    if Recipe.new(recipe_params.merge(user: current_user)).save
+    recipe = Recipe.new(recipe_params.merge(user: current_user))
+    if recipe.save
       return RecipeRepresenter.new(recipe)
     else
       raise Exception.new(recipe.erros)
     end
   end
 
-  def delete(params)
+  def delete(params, current_user)
     recipe = Recipe.find(params[:id])
-    if is_owner?(recipe)
+    if is_owner?(recipe, current_user)
       return recipe.destroy
     end
     raise Exception.new("You are not the owner")
   end
 
   private
-  def is_owner?(recipe)
+  def is_owner?(recipe, current_user)
     recipe.user == current_user
   end
   def validate_params_for_create(recipe_params)
-    recipe_params.ingredients_attributes.size > 1
+    recipe_params[:ingredients_attributes].size > 1
   end
 end
