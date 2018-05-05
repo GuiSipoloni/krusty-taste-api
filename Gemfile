@@ -15,9 +15,11 @@ gem 'active_model_serializers'
 gem 'knock'
 gem 'jwt'
 
-
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem "factory_bot_rails", "~> 4.0"
+  gem 'rspec-rails', '~> 3.7'
+  gem 'database_cleaner'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 end
 
 group :development do

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       
       get    '/users', to: 'users#index'
-      post   '/users/create', to: 'users#create'
+      post   '/users', to: 'users#create'
       patch  '/user/:id', to: 'users#update'
       delete '/user/:id', to: 'users#destroy'
 

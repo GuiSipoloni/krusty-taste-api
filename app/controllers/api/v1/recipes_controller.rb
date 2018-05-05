@@ -5,41 +5,32 @@ module Api
       before_action :authenticate_user
 
       def index
-        recipes = Recipe.order('created_at DESC');
-        recipes_representers = []
-        recipes.each do |recipe|
-          recipes_representers << RecipeRepresenter.new(recipe)
-        end
-        render json: recipes_representers.to_json, status: :ok
+        render json: RecipeManager.new.list_all(params).to_json, status: :ok
       end
 
       def show
-        recipe = Recipe.find(params[:id])
-        render json: RecipeRepresenter.new(recipe).to_json, status: :ok
+        render json: RecipeManager.new.details(params).to_json, status: :ok
+      rescue ActiveRecord::RecordNotFound => e
+        render json: {message: "Recipe not found"}, status: :not_found
       end
 
       def create
-        recipe = Recipe.new(recipe_params.merge(user: current_user))
-        if recipe.save
-          render json: RecipeRepresenter.new(recipe), status: :ok
-        else
-          render json: recipe.erros, status: :unprocessable_entity
-        end
+        render json: RecipeManager.new(recipe_params).to_json, status: :ok
+      rescue Exception => e
+          render json: e.message, status: :bad_request
       end
 
       def destroy
-        recipe = Recipe.find(params[:id])
-        recipe.destroy
-        render json: RecipeRepresenter.new(recipe), status: :ok
+        RecipeManager.new.delete(params)
+        render json: {message: "delete success"}, status: :ok
+      rescue Exception => e
+        render json: e.message, status: :unauthorized
       end
 
       def update
-        recipe = Recipe.find(params[:id])
-        if recipe.update(recipe_params)
-          render json: RecipeRepresenter.new(recipe).to_json, status: :ok
-        else
-          render json: recipe.erros, status: :unprocessable_entity
-        end
+          render json: RecipeManager.new.update(recipe_params).to_json, status: :ok
+      rescue Exception => e 
+          render json: e.message, status: :bad_request
       end
 
       private

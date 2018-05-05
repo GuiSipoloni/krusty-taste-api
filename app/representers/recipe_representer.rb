@@ -11,7 +11,7 @@ class RecipeRepresenter < Roar::Decorator
     property :name
     property :measurement
   end
-  collection :preparation_steps, class: PreparationSteps do
+  collection :preparation_steps, class: PreparationStep do
     property :id
     property :step
     property :description
