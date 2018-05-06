@@ -26,9 +26,12 @@ class RecipeManager
     recipes.map{ |recipe| RecipeRepresenter.new(recipe) }
   end
 
-  def details(params)
+  def details(params, current_user)
     recipe = Recipe.find(params[:id])
-    RecipeRepresenter.new(recipe)
+    if recipe[:public] || is_owner?(recipe, current_user)
+      return RecipeRepresenter.new(recipe)
+    end
+      raise Exception.new("You are not the owner")
   end
 
   def update(recipe_params, current_user)

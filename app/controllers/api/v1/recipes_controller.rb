@@ -13,9 +13,11 @@ module Api
       end
 
       def show
-        render json: RecipeManager.new.details(params).to_json, status: :ok
+        render json: RecipeManager.new.details(params, current_user).to_json, status: :ok
       rescue ActiveRecord::RecordNotFound => e
         render json: {message: "Recipe not found"}, status: :not_found
+      rescue Exception => e
+        render json: {message: e}, status: :unauthorized
       end
 
       def create
