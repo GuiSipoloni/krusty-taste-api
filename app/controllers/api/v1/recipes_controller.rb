@@ -2,10 +2,14 @@ module Api
   module V1
     class RecipesController < ApplicationController 
 
-      before_action :authenticate_user
+      before_action :authenticate_user, except: [:index]
 
       def index
-        render json: RecipeManager.new.list_all(params).to_json, status: :ok
+        render json: RecipeManager.new.list_all_publics(params).to_json, status: :ok
+      end
+
+      def private_list
+        render json: RecipeManager.new.list_all_privates(params, current_user).to_json, status: :ok
       end
 
       def show
@@ -37,7 +41,7 @@ module Api
 
       private
       def recipe_params
-        params.permit(:id, :name, :description, ingredients_attributes: [:id, :name, :measurement], 
+        params.permit(:id, :name, :description, :public, ingredients_attributes: [:id, :name, :measurement], 
           preparation_steps_attributes: [:id, :step, :description])
       end
     end

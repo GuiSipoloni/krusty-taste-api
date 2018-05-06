@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       patch  '/user/:id', to: 'users#update'
       delete '/user/:id', to: 'users#destroy'
 
+      get 'recipes/private', to: 'recipes#private_list'
       resources :recipes
     end
   end

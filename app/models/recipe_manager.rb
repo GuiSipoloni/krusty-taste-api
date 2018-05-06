@@ -1,12 +1,26 @@
 class RecipeManager
   
-  def list_all(params)
+  def list_all_publics(params)
     params[:limit] ||= 10
     params[:offset] ||= 0
+
     if params[:name]
-      recipes = Recipe.search_by_name(params[:name]).order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+      recipes = Recipe.by_name(params[:name]).publics.order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
     else
-      recipes = Recipe.order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+      recipes = Recipe.publics.order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+    end
+    
+    recipes.map{ |recipe| RecipeRepresenter.new(recipe) }
+  end
+
+  def list_all_privates(params, current_user)
+    params[:limit] ||= 10
+    params[:offset] ||= 0
+    
+    if params[:name]
+      recipes = Recipe.by_name(params[:name]).privates.owner(current_user.id).order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+    else
+      recipes = Recipe.privates.owner(current_user.id).order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
     end
     
     recipes.map{ |recipe| RecipeRepresenter.new(recipe) }
