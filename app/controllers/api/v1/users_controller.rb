@@ -13,6 +13,7 @@ module Api
         if user.save
           render json: { user: user }, status: :created
         end
+        render json: user.errors, status: :bad_request
       end
 
       def update
