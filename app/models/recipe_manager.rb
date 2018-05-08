@@ -44,7 +44,7 @@ class RecipeManager
     if recipe.update(recipe_params)
       return RecipeRepresenter.new(recipe)
     end
-      raise Exception.new(recipe.erros)
+      raise Exception.new(recipe.errors.messages)
   end
 
   def create(recipe_params, current_user)
@@ -55,7 +55,7 @@ class RecipeManager
     if recipe.save
       return RecipeRepresenter.new(recipe)
     else
-      raise Exception.new(recipe.erros)
+      raise Exception.new(recipe.errors.messages)
     end
   end
 

@@ -5,15 +5,15 @@ module Api
       before_action :authenticate_user, except: [:index, :show]
 
       def index
-        render json: RecipeManager.new.list_all_publics(params).to_json, status: :ok
+        render json: RecipeManager.new.list_all_publics(params), status: :ok
       end
 
       def private_list
-        render json: RecipeManager.new.list_all_privates(params, current_user).to_json, status: :ok
+        render json: RecipeManager.new.list_all_privates(params, current_user), status: :ok
       end
 
       def show
-        render json: RecipeManager.new.details(params, current_user).to_json, status: :ok
+        render json: RecipeManager.new.details(params, current_user), status: :ok
       rescue ActiveRecord::RecordNotFound => e
         render json: {message: "Recipe not found"}, status: :not_found
       rescue Exception => e
@@ -21,7 +21,7 @@ module Api
       end
 
       def create
-        render json: RecipeManager.new.create(recipe_params, current_user).to_json, status: :ok
+        render json: RecipeManager.new.create(recipe_params, current_user), status: :created
       rescue Exception => e
         render json: {message: e}, status: :bad_request
       end
@@ -36,7 +36,7 @@ module Api
       end
 
       def update
-          render json: RecipeManager.new.update(recipe_params, current_user).to_json, status: :ok
+          render json: RecipeManager.new.update(recipe_params, current_user), status: :ok
       rescue Exception => e 
           render json: {message: e}, status: :bad_request
       end

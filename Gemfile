@@ -20,6 +20,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.7'
   gem 'database_cleaner'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'simplecov', require: false
 end
 
 group :development do

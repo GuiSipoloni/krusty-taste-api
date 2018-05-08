@@ -1,5 +1,5 @@
-def authenticated_header
-    token = Knock::AuthToken.new(payload: { sub: create(:user).id }).token
+def authenticated_header(user_id)
+    token = Knock::AuthToken.new(payload: { sub: user_id }).token
 
     {
       "Authorization": "Bearer #{token}"

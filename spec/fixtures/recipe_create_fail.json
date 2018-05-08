@@ -1,0 +1,24 @@
+{
+  "name": "krusty burger",
+  "public": true,
+  "ingredients_attributes": [ 
+    {
+      "name": "salt",
+      "measurement": "to taste"
+    },
+    {
+      "name": "pepper",
+      "measurement": "to taste"
+    }
+    ],
+  "preparation_steps_attributes":[
+    {
+      "step": 1,
+      "description": "mix the meat with salt and pepper"
+    },
+    {
+      "step": 2,
+      "description": "make balls"
+    }
+    ]
+}

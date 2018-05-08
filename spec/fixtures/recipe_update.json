@@ -1,0 +1,9 @@
+{
+  "name": "krusty burger with brie",
+  "ingredients_attributes": [ 
+    {
+      "name": "brie cheese",
+      "measurement": "200g"
+    }
+  ]
+}
