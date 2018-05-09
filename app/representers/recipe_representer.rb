@@ -7,6 +7,7 @@ class RecipeRepresenter < Roar::Decorator
   property :name
   property :description
   property :public
+  property :image
   collection :ingredients, class: Ingredient do
     property :id
     property :name

@@ -43,7 +43,8 @@ module Api
 
       private
       def recipe_params
-        params.permit(:id, :name, :description, :public, ingredients_attributes: [:id, :name, :measurement], 
+        params.permit(:id, :name, :description, :public, :image,
+          ingredients_attributes: [:id, :name, :measurement], 
           preparation_steps_attributes: [:id, :step, :description])
       end
     end
