@@ -5,12 +5,15 @@ class RecipeManager
     params[:offset] ||= 0
 
     if params[:name]
-      recipes = Recipe.by_name(params[:name]).publics.order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+      recipes = Recipe.by_name(params[:name]).publics.order('created_at DESC').limit(params[:limit]).offset(params[:offset])
+      total = (Recipe.by_name(params[:name]).publics).size
     else
       recipes = Recipe.publics.order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+      total = (Recipe.publics).size
     end
     
-    recipes.map{ |recipe| RecipeRepresenter.new(recipe) }
+    recipes_representer = { recipes: recipes.map{ |recipe| RecipeRepresenter.new(recipe) } }
+    recipes_representer.merge!(add_summary(total))
   end
 
   def list_all_privates(params, current_user)
@@ -18,12 +21,15 @@ class RecipeManager
     params[:offset] ||= 0
 
     if params[:name]
-      recipes = Recipe.by_name(params[:name]).owner(current_user.id).order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+      recipes = Recipe.by_name(params[:name]).owner(current_user.id).order('created_at DESC').limit(params[:limit]).offset(params[:offset])
+      total = (Recipe.by_name(params[:name]).owner(current_user.id)).size
     else
-      recipes = Recipe.owner(current_user.id).order('created_at DESC').limit(params[:limit]).offset(params[:offset]);
+      recipes = Recipe.owner(current_user.id).order('created_at DESC').limit(params[:limit]).offset(params[:offset])
+      total = (Recipe.owner(current_user.id)).size
     end
     
-    recipes.map{ |recipe| RecipeRepresenter.new(recipe) }
+    recipes_representer = { recipes: recipes.map{ |recipe| RecipeRepresenter.new(recipe) } }
+    recipes_representer.merge!(add_summary(total))
   end
 
   def details(params, current_user)
@@ -68,6 +74,10 @@ class RecipeManager
   end
 
   private
+  def add_summary(total)
+    { summary: { total: total }}
+  end
+
   def is_owner?(recipe, current_user)
     recipe.user == current_user
   end

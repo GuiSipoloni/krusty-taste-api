@@ -19,6 +19,14 @@ RSpec.describe Api::V1::RecipesController, type: :controller do
         get :index, params: { name: "cupcake" }
       end
       it { expect(response.status).to eq(200) }
+      it { expect(JSON.parse(response.body)['summary']['total']).to be_present }
+    end
+
+    context "has a summary node with total" do
+      before do
+        get :index
+      end
+      it { expect(JSON.parse(response.body)['summary']['total']).to be_present }
     end
   end
 
@@ -29,7 +37,7 @@ RSpec.describe Api::V1::RecipesController, type: :controller do
         get :private_list 
       end
       it { expect(response.status).to eq(200) }
-      it { expect(JSON.parse(response.body).size).to eq(0) }
+      it { expect(JSON.parse(response.body)['recipes'].size).to eq(0) }
     end
 
     context "has a 200 status code using filter and user with recipes" do
@@ -38,7 +46,16 @@ RSpec.describe Api::V1::RecipesController, type: :controller do
         get :private_list, params: { name: "cupcake" }
       end
       it { expect(response.status).to eq(200) }
-      it { expect(JSON.parse(response.body).size).to eq(1) }
+      it { expect(JSON.parse(response.body)['recipes'].size).to eq(1) }
+      it { expect(JSON.parse(response.body)['summary']['total']).to be_present }
+    end
+
+    context "has a summary node with total" do
+      before do
+        request.headers.merge!(authenticated_header(create(:user, :other_user).id))
+        get :private_list
+      end
+      it { expect(JSON.parse(response.body)['summary']['total']).to be_present }
     end
 
     context "has a 401 status code unauthenticated user" do
