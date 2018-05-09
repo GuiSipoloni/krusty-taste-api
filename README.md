@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Krusty taste is your online recipes book, you can save and never lost a recipe again.
 
-Things you may want to cover:
+[API Documentation](https://documenter.getpostman.com/view/122265/krustytaste-api/RW1emyNX#b8da1a98-c287-e409-fb80-b259dc70a6c8)
 
-* Ruby version
 
-* System dependencies
+## run local
 
-* Configuration
+require ruby-2.5.1
+`bundle install`
+`rails db:create`
+`rails db:migrate`
+`rails s`
 
-* Database creation
+##tests
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+`bundle exec rspec`
