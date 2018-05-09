@@ -2,6 +2,7 @@
   "name": "krusty burger",
   "description": "the most delicious burger in the world",
   "public": true,
+  "image": "image_encoded",
   "ingredients_attributes": [ 
     {
       "name": "salt",
