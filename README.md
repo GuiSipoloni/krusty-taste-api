@@ -1,24 +1,23 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Krustytaste is your online recipes book, you can save and never lost a recipe again. Moreover, you can find out new dishes and share your best recipes with other cookers if you want.  
 
-Things you may want to cover:
 
-* Ruby version
+[API Documentation](https://documenter.getpostman.com/view/122265/krustytaste-api/RW1emyNX#b8da1a98-c287-e409-fb80-b259dc70a6c8)
 
-* System dependencies
 
-* Configuration
+##run local
 
-* Database creation
+requires: ruby-2.5.1
 
-* Database initialization
+`bundle install`
 
-* How to run the test suite
+`rails db:create`
 
-* Services (job queues, cache servers, search engines, etc.)
+`rails db:migrate`
 
-* Deployment instructions
+`rails s`
 
-* ...
+##run tests
+
+`bundle exec rspec`
