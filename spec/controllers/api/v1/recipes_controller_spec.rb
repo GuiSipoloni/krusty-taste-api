@@ -120,12 +120,12 @@ RSpec.describe Api::V1::RecipesController, type: :controller do
       it { expect(response.status).to eq(404) }
     end
 
-    context "has a 401 status when try delete a recipe that you are not the owner" do
+    context "has a 404 status when try delete a recipe that you are not the owner" do
       before do
         request.headers.merge!(authenticated_header(create(:user, :other_user).id))
         delete :destroy, params: { id: recipe.id }
       end
-      it { expect(response.status).to eq(401) }
+      it { expect(response.status).to eq(404) }
     end
   end
 
@@ -168,13 +168,13 @@ RSpec.describe Api::V1::RecipesController, type: :controller do
       it { expect(JSON.parse(response.body)['ingredients'].pluck('name').include?('brie cheese')).to eq(true) }
     end
 
-    context "has a 400 status when try update a recipe that you are not the owner" do
+    context "has a 404 status when try update a recipe that you are not the owner" do
       before do
         request.headers.merge!(authenticated_header(create(:user, :other_user).id))
         put :update, params: load_json("recipe_update").merge!(id: ingredient.recipe.id)
       end
-      it { expect(response.status).to eq(400) }
-      it { expect(JSON.parse(response.body)['message']).to eq("You are not the owner") }
+      it { expect(response.status).to eq(404) }
+      it { expect(JSON.parse(response.body)['message']).to eq("Recipe not found") }
     end
   end
 end
